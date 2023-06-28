@@ -7,7 +7,7 @@ class Node {
     }
 }
 
-export default class Tree {
+export class Tree {
 
     constructor(arr) {
         arr = [...new Set(arr)]
@@ -28,6 +28,19 @@ export default class Tree {
 
         return root
     }
+
+    prettyPrint(node = this.root, prefix = "", isLeft = true)  {
+        if (node === null) {
+          return;
+        }
+        if (node.right !== null) {
+          this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+        if (node.left !== null) {
+          this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+      };
 
     insert(value, root = this.root) {
         if(value === root.data) return
@@ -55,7 +68,6 @@ export default class Tree {
         }
 
         while (root !== null && root.data !== value) {
-            // console.log(root.data)
 
             if (root.left === null && root.right === null) return console.log('value not found in the tree:', value)
 
@@ -109,7 +121,6 @@ export default class Tree {
 
         // if target has 2 child
         if (target.left && target.right) {
-            console.log(target)
             //find the next biggest node from right branch
             let beforeNextBiggest = target
             let nextBiggest = target.right
@@ -146,7 +157,7 @@ export default class Tree {
     }
 
     log (root) {
-        console.log(root, 'i am working')
+        console.log(root, 'i log')
     }
 
     levelOrderRec (func, root = this.root, queue = [root], array = []) {
@@ -165,7 +176,7 @@ export default class Tree {
             func(root)
             return this.levelOrderRec(func, queue[0], queue)
     } else if (!func) {
-            array.push(root)
+            array.push(root.data)
             // console.log(array)
             return this.levelOrderRec(func, queue[0], queue, array)
         }
@@ -235,7 +246,6 @@ export default class Tree {
 
     depth(node, currNode = this.root, count = 0) {
         let depth = 0
-        console.log(currNode)
 
         while (currNode.data !== node) {
             if ((node < currNode.data && !currNode.left) || (node > currNode.data && !currNode.right)) {
@@ -276,64 +286,5 @@ export default class Tree {
     }
 }
 
-function prettyPrint(node, prefix = "", isLeft = true)  {
-    if (node === null) {
-      return;
-    }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-  };
-
-let arr = [1, 2, 1, 4, 2, 5, 8, 3, 9, 20, 33, 100, 215]
-// let arr = [1, 2, 3, 4, 5, 6]
-const tree = new Tree(arr, 0, arr.length - 1)
-
-prettyPrint(tree.root)
-
-// prettyPrint(tree.root)
-// console.log('----------------------------')
-// tree.insert(10)
-// tree.insert(34)
-// tree.insert(35)
-// tree.insert(36)
-// tree.delete(33)
-// tree.delete(34)
-// tree.delete(9)
-// tree.delete(8)
-// tree.delete(4)
-// tree.delete(20)
-// tree.delete(10)
-// tree.delete(100000)
-// tree.delete(100)
-// tree.delete(1)
-// tree.delete(3)
-
-// prettyPrint(tree.root)
-// tree.delete(8)
-// prettyPrint(tree.root)
-// console.log('founded!', tree.find(89))
-// console.log('founded!', tree.find(200))
-// console.log(tree.find(2100))
-// console.log(tree.find(9))
-// tree.levelOrderRec(tree.log)
-// console.log('no func' ,tree.levelOrderRec())
-// console.log('no func' ,tree.levelOrderItr())
-// console.log('with func' ,tree.levelOrderItr(tree.log))
-// tree.preOrder(tree.log)
-// console.log('no func', tree.inOrder())
-// tree.postOrder(tree.log)
-// console.log(tree.height(35))
-// console.log(tree.find(215))
-// console.log(tree.depth(33))
-// console.log(tree.isBalanced())
-// tree.rebalance()
-// prettyPrint(tree.root)
 
 
-// console.log(set)
-// console.log(Array.isArray(set))
